@@ -1,0 +1,32 @@
+{
+  "name": "enjoyable-pacman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxkonrad/enjoyable-pacman.git"
+  },
+  "author": "Furkan Selek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maxkonrad/enjoyable-pacman/issues"
+  },
+  "homepage": "https://github.com/maxkonrad/enjoyable-pacman#readme",
+  "dependencies": {
+    "@babel/core": "^7.17.0",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "parcel-bundler": "^1.12.4"
+  },
+  "type": "module",
+  "babel": {
+    "plugins": [
+      "@babel/plugin-transform-runtime"
+    ]
+  }
+}
