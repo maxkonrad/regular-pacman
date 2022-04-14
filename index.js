@@ -2,7 +2,7 @@ import { LEVEL, OBJECT_TYPE } from './setup';
 import { randomMovement } from './ghostMoves';
 // Classes
 import GameBoard from './GameBoard';
-import Pacman from './Pacman';
+import Pacman from './pacman';
 import Ghost from './Ghost';
 // Sounds
 import soundDot from './sounds/munch.wav';
