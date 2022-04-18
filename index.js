@@ -77,15 +77,12 @@ function gameLoop(pacman, ghosts) {
   // 1. Move Pacman
   gameBoard.moveCharacter(pacman);
   // 2. Check Ghost collision on the old positions
-  checkCollision(pacman, ghosts);
   // 3. Move ghosts
   ghosts.forEach((ghost) => gameBoard.moveCharacter(ghost));
-  // 4. Do a new ghost collision check on the new positions
-  checkCollision(pacman, ghosts);
   // 5. Check if Pacman eats a dot
   if (gameBoard.objectExist(pacman.pos, OBJECT_TYPE.DOT)) {
     playAudio(soundDot);
-
+    
     gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.DOT]);
     // Remove a dot
     gameBoard.dotCount--;
@@ -95,31 +92,29 @@ function gameLoop(pacman, ghosts) {
   // 6. Check if Pacman eats a power pill
   if (gameBoard.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
     playAudio(soundPill);
-
     gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
-
     pacman.powerPill = true;
     score += 50;
-
     clearTimeout(powerPillTimer);
-    powerPillTimer = setTimeout(
-      () => (pacman.powerPill = false),
-      POWER_PILL_TIME
-    );
+    powerPillTimer = setTimeout(() => {
+      pacman.powerPill = false
+      ghosts.forEach((ghost) => (ghost.isScared = false));
+  }, POWER_PILL_TIME);
   }
-  // 7. Change ghost scare mode depending on powerpill
-  if (pacman.powerPill !== powerPillActive) {
-    powerPillActive = pacman.powerPill;
-    ghosts.forEach((ghost) => (ghost.isScared = pacman.powerPill));
+    // 7. Change ghost scare mode depending on powerpill
+    if (pacman.powerPill !== powerPillActive) {
+      powerPillActive = pacman.powerPill;
+      ghosts.forEach((ghost) => (ghost.isScared = pacman.powerPill));
+    }
+    // 8. Check if all dots have been eaten
+    if (gameBoard.dotCount === 0) {
+      gameWin = true;
+      gameOver(pacman, gameGrid);
+    }
+    checkCollision(pacman, ghosts);
+    // 9. Show new score
+    scoreTable.innerHTML = score;
   }
-  // 8. Check if all dots have been eaten
-  if (gameBoard.dotCount === 0) {
-    gameWin = true;
-    gameOver(pacman, gameGrid);
-  }
-  // 9. Show new score
-  scoreTable.innerHTML = score;
-}
 
 function startGame() {
   playAudio(soundGameStart);
@@ -144,6 +139,18 @@ function startGame() {
     new Ghost(3, 230, randomMovement, OBJECT_TYPE.INKY),
     new Ghost(2, 251, randomMovement, OBJECT_TYPE.CLYDE)
   ];
+  setTimeout(() => {
+    alert("Game over. Please save the code PACMAN2022, then close this tab and return to the survey.")
+    gameGrid.remove();
+    startButton.remove();
+  }, 300000)
+
+  setTimeout(() => {
+    if(messageBool){
+    alert("You are doing great! Keep going on!")
+    }
+    messageBool = false;
+  }, 160000)
 
   // Gameloop
   timer = setInterval(() => gameLoop(pacman, ghosts), GLOBAL_SPEED);
