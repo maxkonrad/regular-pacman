@@ -25,6 +25,7 @@ let timer = null;
 let gameWin = false;
 let powerPillActive = false;
 let powerPillTimer = null;
+let messageBool = true;
 
 // --- AUDIO --- //
 function playAudio(audio) {
