@@ -150,7 +150,7 @@ function startGame() {
 
   setTimeout(() => {
     if(messageBool){
-    alert("You are doing great! Keep going on!")
+    alert("You are doing so good! Keep it up. So far, you are doing better than 95% of the players. We appreciate your help so much!")
     }
     messageBool = false;
   }, 160000)

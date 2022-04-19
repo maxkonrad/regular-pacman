@@ -1,4 +1,4 @@
-import { GRID_SIZE, CELL_SIZE, OBJECT_TYPE, CLASS_LIST } from './setup';
+import { GRID_SIZE, CELL_SIZE, OBJECT_TYPE, CLASS_LIST, MSG } from './setup';
 
 class GameBoard {
   constructor(DOMGrid) {
@@ -11,7 +11,8 @@ class GameBoard {
     // Create and show game win or game over
     const div = document.createElement('div');
     div.classList.add('game-status');
-    div.innerHTML = `${gameWin ? 'WIN!' : 'GAME OVER!'}`;
+    let msg = MSG[Math.floor(Math.random() * MSG.length)];
+    div.innerHTML = `${gameWin ? 'WIN!!!' : msg}`;
     this.DOMGrid.appendChild(div);
   }
 
