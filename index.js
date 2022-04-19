@@ -1,5 +1,5 @@
 import { LEVEL, OBJECT_TYPE } from './setup';
-import { randomMovement } from './ghostMoves';
+import { huntMovement, randomMovement } from './ghostMoves';
 // Classes
 import GameBoard from './GameBoard';
 import Pacman from './pacman';
@@ -26,11 +26,25 @@ let gameWin = false;
 let powerPillActive = false;
 let powerPillTimer = null;
 let messageBool = true;
+let huntMovementTime = 5000;
+let huntMovementRandom = 1
+let huntTimer = null
+
 
 // --- AUDIO --- //
 function playAudio(audio) {
   const soundEffect = new Audio(audio);
   soundEffect.play();
+}
+
+function huntMovementTimer(ghosts){
+  huntMovementRandom = Math.floor(Math.random() * 10)
+  if (huntMovementRandom < 6){
+    ghosts.forEach(ghost => ghost.movement = huntMovement)
+  }
+  else{
+    ghosts.forEach(ghost => ghost.movement = randomMovement)
+  }
 }
 
 // --- GAME CONTROLLER --- //
@@ -41,6 +55,7 @@ function gameOver(pacman, grid) {
   else{
     playAudio(soundGameOver)
   }
+
 
   document.removeEventListener('keydown', (e) =>
     pacman.handleKeyInput(e, gameBoard.objectExist.bind(gameBoard))
@@ -55,7 +70,6 @@ function gameOver(pacman, grid) {
 
 function checkCollision(pacman, ghosts) {
   const collidedGhost = ghosts.find((ghost) => pacman.pos === ghost.pos);
-
   if (collidedGhost) {
     if (pacman.powerPill) {
       playAudio(soundGhost);
@@ -119,6 +133,7 @@ function gameLoop(pacman, ghosts) {
     scoreTable.innerHTML = score;
   }
 
+
 function startGame() {
   playAudio(soundGameStart);
 
@@ -127,7 +142,10 @@ function startGame() {
   score = 0;
 
   startButton.classList.add('hide');
-
+  LEVEL[41] = 7
+  LEVEL[58] = 7
+  LEVEL[418] = 7
+  LEVEL[401] = 7
   gameBoard.createGrid(LEVEL);
 
   const pacman = new Pacman(2, 287);
@@ -137,10 +155,10 @@ function startGame() {
   );
 
   const ghosts = [
-    new Ghost(5, 188, randomMovement, OBJECT_TYPE.BLINKY),
-    new Ghost(4, 209, randomMovement, OBJECT_TYPE.PINKY),
-    new Ghost(3, 230, randomMovement, OBJECT_TYPE.INKY),
-    new Ghost(2, 251, randomMovement, OBJECT_TYPE.CLYDE)
+    new Ghost(5, 188, randomMovement, OBJECT_TYPE.BLINKY, pacman),
+    new Ghost(4, 209, randomMovement, OBJECT_TYPE.PINKY, pacman),
+    new Ghost(3, 230, randomMovement, OBJECT_TYPE.INKY, pacman),
+    new Ghost(2, 251, randomMovement, OBJECT_TYPE.CLYDE, pacman)
   ];
   setTimeout(() => {
     alert("Game over. Please save the code PACMAN2022, then close this tab and return to the survey.")
@@ -154,7 +172,7 @@ function startGame() {
     }
     messageBool = false;
   }, 160000)
-
+  huntTimer = setInterval(() => huntMovementTimer(ghosts), 5000)
   // Gameloop
   timer = setInterval(() => gameLoop(pacman, ghosts), GLOBAL_SPEED);
 }

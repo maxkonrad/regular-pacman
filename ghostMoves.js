@@ -2,34 +2,37 @@ import { DIRECTIONS, GRID_SIZE, OBJECT_TYPE } from './setup';
 
 // Primitive random movement.
 export function randomMovement(position, direction, objectExist, pacman) {
+  console.log("1. Çalıştı")
   let dir = direction;
   let nextMovePos = position + dir.movement;
   // Create an array from the diretions objects keys
   const keys = Object.keys(DIRECTIONS);
   
-  let attempts = 10
 
-  while (
+  let validMoves = []
+  keys.forEach(key => {
+    dir = DIRECTIONS[key];
+    let nextMovePos = position + dir.movement;
+    if(!(objectExist(nextMovePos, OBJECT_TYPE.WALL) || objectExist(nextMovePos, OBJECT_TYPE.GHOST))){
+      validMoves.push(nextMovePos)
+    }
+  });
+  let attempts = 10
+  nextMovePos = validMoves[Math.floor(Math.random() * validMoves.length)]
+  let isClose = isCloser(pacman.pos, position, nextMovePos)
+  while(
     objectExist(nextMovePos, OBJECT_TYPE.WALL) ||
     objectExist(nextMovePos, OBJECT_TYPE.GHOST)) {
-    // Get a random key from that array
-    const key = keys[Math.floor(Math.random() * keys.length)];
-    // Set the new direction
-    dir = DIRECTIONS[key];
-    // Set the next move
-    nextMovePos = position + dir.movement;
-
+    nextMovePos = validMoves[Math.floor(Math.random() * validMoves.length)]
     attempts--
-
-    if (attempts == 0) {
-      return
-    }
   }
 
   return { nextMovePos, direction: dir };
 }
 
+
 export function huntMovement(position, direction, objectExist, pacman){
+  console.log("2. Çalıştı")
   let dir = direction
   const keys = Object.keys(DIRECTIONS);
   let decision = false
@@ -57,6 +60,7 @@ export function huntMovement(position, direction, objectExist, pacman){
   dir = nextMovePos - position
   return { nextMovePos, direction: dir}
 }
+
 
 function isCloser(pacmanPos, position, nextMovePos) {
   const [pointX, pointY] = getCoords(pacmanPos)

@@ -1,7 +1,7 @@
 import { DIRECTIONS, OBJECT_TYPE } from './setup';
 
 class Ghost {
-  constructor(speed = 5, startPos, movement, name) {
+  constructor(speed = 5, startPos, movement, name, pacman) {
     this.name = name;
     this.movement = movement;
     this.startPos = startPos;
@@ -11,6 +11,7 @@ class Ghost {
     this.timer = 0;
     this.isScared = false;
     this.rotation = false;
+    this.pacman = pacman;
   }
 
   shouldMove() {
@@ -26,7 +27,8 @@ class Ghost {
     const { nextMovePos, direction } = this.movement(
       this.pos,
       this.dir,
-      objectExist
+      objectExist,
+      this.pacman
     );
     return { nextMovePos, direction };
   }
