@@ -2,7 +2,6 @@ import { DIRECTIONS, GRID_SIZE, OBJECT_TYPE } from './setup';
 
 // Primitive random movement.
 export function randomMovement(position, direction, objectExist, pacman) {
-  console.log("1. Çalıştı")
   let dir = direction;
   let nextMovePos = position + dir.movement;
   // Create an array from the diretions objects keys
@@ -32,7 +31,6 @@ export function randomMovement(position, direction, objectExist, pacman) {
 
 
 export function huntMovement(position, direction, objectExist, pacman){
-  console.log("2. Çalıştı")
   let dir = direction
   const keys = Object.keys(DIRECTIONS);
   let decision = false
