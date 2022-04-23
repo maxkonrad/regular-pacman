@@ -47,10 +47,14 @@ class Pacman {
 
   handleKeyInput = (e, objectExist) => {
     let dir;
+
+    if (e.keyCode >= 37 && e.keyCode <= 40) {
       dir = DIRECTIONS[e.key];
+      this.dir = dir;
+    } 
     const nextMovePos = this.pos + dir.movement;
+
     if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) return;
-    this.dir = dir;
   };
 }
 
