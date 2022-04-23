@@ -50,11 +50,17 @@ class Pacman {
 
     if (e.keyCode >= 37 && e.keyCode <= 40) {
       dir = DIRECTIONS[e.key];
-      this.dir = dir;
+      if(objectExist(dir.movement + this.pos, OBJECT_TYPE.WALL)) return;
+      else this.dir = dir;
     } 
+    else {
+      return
+    }
     const nextMovePos = this.pos + dir.movement;
 
-    if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) return;
+    if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
+      return
+    };
   };
 }
 
