@@ -119,10 +119,8 @@ function gameLoop(pacman, ghosts) {
     pacman.powerPill = true;
     score += 50;
     clearTimeout(powerPillTimer);
-    powerPillTimer = setTimeout(() => {
-      pacman.powerPill = false
-      ghosts.forEach((ghost) => (ghost.isScared = false));
-      }, POWER_PILL_TIME);
+    powerPillTimer = setTimeout(() => (
+      pacman.powerPill = false), POWER_PILL_TIME);
     }
     // 8. Check if all dots have been eaten
     if (gameBoard.dotCount === 0) {
