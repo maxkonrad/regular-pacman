@@ -1,4 +1,4 @@
-# enjoyable-pacman
+# regular-pacman
 ## Installation
 ```npm i```
 ## Start
