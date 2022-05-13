@@ -159,7 +159,7 @@ function startGame() {
     new Ghost(2, 251, randomMovement, OBJECT_TYPE.CLYDE, pacman)
   ];
   setTimeout(() => {
-    alert("Game over. Please save the code PACMAN2022, then close this tab and return to the survey.")
+    alert("Thank you for playing. You may now close this window.")
     gameGrid.remove();
     startButton.remove();
   }, 300000)
@@ -169,7 +169,7 @@ function startGame() {
     alert("You are doing so good! Keep it up. So far, you are doing better than 95% of the players. We appreciate your help so much!")
     }
     messageBool = false;
-  }, 160000)
+  }, 150100)
   huntTimer = setInterval(() => huntMovementTimer(ghosts), 5000)
   // Gameloop
   timer = setInterval(() => gameLoop(pacman, ghosts), GLOBAL_SPEED);
