@@ -89,6 +89,21 @@ function checkCollision(pacman, ghosts) {
 }
 
 function gameLoop(pacman, ghosts) {
+    // 6. Check if Pacman eats a power pill
+  if (gameBoard.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
+    playAudio(soundPill);
+    gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
+    pacman.powerPill = true;
+    score += 50;
+    clearTimeout(powerPillTimer);
+    powerPillTimer = setTimeout(() => {
+    pacman.powerPill = false}, POWER_PILL_TIME);
+    }
+  // 7. Change ghost scare mode depending on powerpill
+  if (pacman.powerPill !== powerPillActive) {
+    powerPillActive = pacman.powerPill;
+    ghosts.forEach((ghost) => (ghost.isScared = pacman.powerPill));
+  }
   // 1. Move Pacman
   gameBoard.moveCharacter(pacman);
   // 2. Check Ghost collision on the old positions
@@ -107,21 +122,6 @@ function gameLoop(pacman, ghosts) {
     // Add Score
     score += 10;
   }
-   // 7. Change ghost scare mode depending on powerpill
-   if (pacman.powerPill !== powerPillActive) {
-    powerPillActive = pacman.powerPill;
-    ghosts.forEach((ghost) => (ghost.isScared = pacman.powerPill));
-  }
-    // 6. Check if Pacman eats a power pill
-  if (gameBoard.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
-    playAudio(soundPill);
-    gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
-    pacman.powerPill = true;
-    score += 50;
-    clearTimeout(powerPillTimer);
-    powerPillTimer = setTimeout(() => (
-      pacman.powerPill = false), POWER_PILL_TIME);
-    }
     // 8. Check if all dots have been eaten
     if (gameBoard.dotCount === 0) {
       gameWin = true;
