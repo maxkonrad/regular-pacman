@@ -159,7 +159,7 @@ function startGame() {
     new Ghost(2, 251, randomMovement, OBJECT_TYPE.CLYDE, pacman)
   ];
   setTimeout(() => {
-    alert("Thank you for playing. You may now close this window.")
+    alert("Thank you for playing. Please press ESC and close this window.")
     gameGrid.remove();
     startButton.remove();
   }, 300000)
